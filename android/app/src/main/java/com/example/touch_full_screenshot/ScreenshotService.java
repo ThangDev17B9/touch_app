@@ -47,16 +47,35 @@ public class ScreenshotService extends Service {
         assert data != null;
         mediaProjection = mediaProjectionManager.getMediaProjection(resultCode, data);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mediaProjection.registerCallback(new MediaProjection.Callback() {
+                @Override
+                public void onStop() {
+                    super.onStop();
+                    releaseResources();
+                }
+            }, null);
+        }
         startScreenshot();
 
         return START_NOT_STICKY;
+    }
+    private void releaseResources() {
+        if (virtualDisplay != null) {
+            virtualDisplay.release();
+            virtualDisplay = null;
+        }
+        if (imageReader != null) {
+            imageReader.close();
+            imageReader = null;
+        }
     }
 
     private void startScreenshot() {
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getRealMetrics(metrics);
-        imageReader = ImageReader.newInstance(metrics.widthPixels, metrics.heightPixels, PixelFormat.RGBA_8888, 0);
+        imageReader = ImageReader.newInstance(metrics.widthPixels, metrics.heightPixels, PixelFormat.RGBA_8888, 1);
         virtualDisplay = mediaProjection.createVirtualDisplay(
                 "Screenshot",
                 metrics.widthPixels,

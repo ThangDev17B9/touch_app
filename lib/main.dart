@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:touch_full_screenshot/controller/graph_ql_config.dart';
 import 'package:touch_full_screenshot/view/home/my_home_app.dart';
 
-void main () {
-  runApp(const MyApp());
+void main () async {
+  await initHiveForFlutter();
+  final client = GraphQlConfig.initializeClient();
+  runApp(GraphQLProvider(client: client, child: MyApp(),));
 }
 
 class MyApp extends StatelessWidget {

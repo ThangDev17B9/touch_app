@@ -1,9 +1,10 @@
 import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_recording/flutter_screen_recording.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class RecordingScreen extends StatefulWidget {
   const RecordingScreen({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class _RecordingScreenState extends State<RecordingScreen> {
 
   Future<void> stopRecording() async {
     // Dừng ghi màn hình và lấy đường dẫn video
-    String? videoPath = await FlutterScreenRecording.stopRecordScreen;
+    String videoPath = await FlutterScreenRecording.stopRecordScreen;
 
     if (videoPath != null && videoPath.isNotEmpty) {
       setState(() {
@@ -88,9 +89,7 @@ class _RecordingScreenState extends State<RecordingScreen> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                isRecording ? stopRecording : null;
-              },
+              onPressed: isRecording ? stopRecording : null,
               child: const Text('Stop Recording'),
             ),
           ],

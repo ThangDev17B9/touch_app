@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:touch_full_screenshot/controller/constant.dart';
 
-class GraphQlConfig{
+class GraphQlConfig {
   static final HttpLink apiGetAllProject = HttpLink(Constant.getProject);
 
-  static final AuthLink authLink = AuthLink(getToken: () =>'Bearer ${Constant.token}');
+  static final AuthLink authLink =
+      AuthLink(getToken: () => 'Bearer ${Constant.token}');
 
   static ValueNotifier<GraphQLClient> initializeClient() {
     final Link link = authLink.concat(apiGetAllProject);
@@ -17,7 +18,6 @@ class GraphQlConfig{
       ),
     );
   }
-  static void postInformationFile(){
 
-  }
+  static void postInformationFile() {}
 }

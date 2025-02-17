@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:touch_full_screenshot/controller/constant.dart';
 
@@ -43,18 +42,12 @@ class _UploadFilePageState extends State<UploadFilePage> {
 
     try {
       String token = Constant.token;
-      dio.MultipartFile data =  await dio.MultipartFile.fromFile(
-        _selectedFile!.path,
-        contentType: MediaType('image', 'png')
-      );
-      dio.FormData formData = dio.FormData.fromMap({
-        "file": data
-      });
-
-      
+      dio.MultipartFile data = await dio.MultipartFile.fromFile(
+          _selectedFile!.path,
+          contentType: MediaType('image', 'png'));
+      dio.FormData formData = dio.FormData.fromMap({"file": data});
 
       dio.Response response = await _dio.post(
-        // Constant.postFile,
         Constant.postFile,
         data: formData,
         options: dio.Options(

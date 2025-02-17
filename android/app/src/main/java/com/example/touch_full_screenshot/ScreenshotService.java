@@ -122,7 +122,7 @@ public class ScreenshotService extends Service {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "screenshot.png");
+                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, System.currentTimeMillis() + ".png");
                 contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/png");
                 contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/Screenshots");
 
@@ -137,7 +137,7 @@ public class ScreenshotService extends Service {
                 if (!directory.exists()) {
                     directory.mkdirs();
                 }
-                File file = new File(directory, "screenshot.png");
+                File file = new File(directory, System.currentTimeMillis() + ".png");
                 try (FileOutputStream fos = new FileOutputStream(file)) {
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
                 }
